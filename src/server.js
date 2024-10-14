@@ -1,11 +1,12 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const serverless = require('express-serverless-http');
 const cors = require('cors');
 require('dotenv').config();
 
 const publisherRoutes = require('./routes/publisherRoutes');
-/*const authorRoutes = require('./routes/authorRoutes');
-const bookRoutes = require('./routes/bookRoutes');*/
+// const authorRoutes = require('./routes/authorRoutes');
+// const bookRoutes = require('./routes/bookRoutes');
 
 const app = express();
 app.use(cors());
@@ -16,8 +17,7 @@ mongoose.connect(process.env.MONGODB_URI)
   .catch(err => console.error('Error de conexión:', err));
 
 app.use('/api/publishers', publisherRoutes);
-/*app.use('/api/authors', authorRoutes);
-app.use('/api/books', bookRoutes);*/
+// app.use('/api/authors', authorRoutes);
+// app.use('/api/books', bookRoutes);
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Servidor corriendo en el puerto ${PORT}`));
+module.exports.handler = serverless(app);
