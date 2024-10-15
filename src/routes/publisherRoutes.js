@@ -23,16 +23,22 @@ router.get('/', async (req, res) => {
   }
 });
 
-// Obtener Publisher por ID
+// Obtener Publisher por ID (solo numérico)
 router.get('/:id', async (req, res) => {
+  const id = req.params.id;
+  if (isNaN(id)) {
+    return res.status(400).send({ error: 'El ID debe ser un número.' });
+  }
   try {
-    const publisher = await Publisher.findOne({ id: req.params.id });
+    const publisher = await Publisher.findOne({ id: Number(id) });
     if (!publisher) return res.status(404).send();
     res.send(publisher);
   } catch (err) {
     res.status(500).send(err);
   }
 });
+
+
 
 // Actualizar Publisher
 router.put('/:id', async (req, res) => {

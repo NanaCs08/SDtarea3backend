@@ -14,6 +14,7 @@ mongoose.connect(process.env.MONGODB_URI)
   .then(() => console.log('Conectado a MongoDB Atlas'))
   .catch(err => console.error('Error de conexión:', err));
 
-app.use('/.netlify/functions/api', publisherRoutes);
+  app.use('/.netlify/functions/api/publishers', publisherRoutes);
+
 
 module.exports.handler = serverless(app);
